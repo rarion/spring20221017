@@ -19,7 +19,7 @@ public class Controller08 {
 	
 	@GetMapping("sub02")
 	public void method2(HttpServletRequest request) {
-		System.out.println("method1 !%&#!&%#!&%#");
+		System.out.println("method2 #");
 		
 		String name = request.getParameter("name");
 		String age = request.getParameter("age");

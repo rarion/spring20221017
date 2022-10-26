@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.zerock.mapper.lecture.Mapper06">
+	
+	<select id="getCategory"  resultMap="categoryMap">
+		SELECT c.categoryID, c.categoryName, p.ProductName
+		FROM Categories c JOIN Products p ON c.CategoryID = p.CategoryID
+		WHERE c.CategoryID = 7
+	</select>
+	<resultMap type="org.zerock.domain.lecture.CategoryDTO" id="categoryMap">
+		<id column="categoryId" property="id" />
+		<result column="categoryName" property="name" />
+		<collection property="productName" ofType="string">
+			<result column="productName"/>
+		</collection>
+	</resultMap>
+	
+	
+	<select id="getSupplier"  resultMap="supplierMap">
+		SELECT s.SupplierID, s.SupplierName, p.ProductName
+		FROM Suppliers s JOIN Products p ON s.SupplierID = p.SupplierID
+		WHERE s.SupplierID = 1
+	</select>
+	<resultMap type="org.zerock.domain.lecture.SupplierDTO" id="supplierMap">
+		<id column="SupplierID" property="id"/>
+		<result column="SupplierName" property="name"/>
+		<collection property="productName" ofType="string">
+			<result column="ProductName"/>
+		</collection>
+	</resultMap>
+	
+	
+</mapper>
