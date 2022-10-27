@@ -9,4 +9,5 @@ public class SupplierDTO {
 	private int id;
 	private String name;
 	private List<String> productName;
+	private List<ProductDTO> product;
 }
