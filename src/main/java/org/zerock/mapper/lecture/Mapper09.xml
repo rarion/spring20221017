@@ -12,22 +12,19 @@
 	</select>
 
 	<select id="getEmployeeFirstNameById" resultType="string">
-		SELECT
-		FirstName
+		SELECT FirstName
 		FROM Employees
 		WHERE EmployeeID = #{id}
 	</select>
 
 	<select id="getCustomerNameByCityAndCountry" resultType="string">
-		SELECT
-		CustomerName
+		SELECT CustomerName
 		FROM Customers
 		WHERE City = #{city} AND Country = #{country}
 	</select>
 
 	<select id="getSupplierNameByCityAndCountry" resultType="string">
-		SELECT
-		SupplierName
+		SELECT SupplierName
 		FROM Suppliers
 		WHERE City = #{city} AND Country = #{country}
 	</select>

@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.zerock.domain.lecture.CategoryDTO2;
+import org.zerock.domain.lecture.CategoryDTO;
 import org.zerock.domain.lecture.JavaBean04;
-import org.zerock.domain.lecture.ProductDTO2;
+import org.zerock.domain.lecture.ProductDTO;
 import org.zerock.mapper.lecture.Mapper09;
 
 @Controller
@@ -74,7 +74,7 @@ public class Controller35 {
 		// /ex35/sub07?id=1&price=10.00
 		// /ex35/sub07?id=2&price=20.00
 		@RequestMapping("sub07")
-		public void method7(CategoryDTO2 p1, ProductDTO2 p2) {
+		public void method7(CategoryDTO p1, ProductDTO p2) {
 			List<String> list = mapper.getProductName(p1, p2);
 			list.forEach(System.out::println);
 		}

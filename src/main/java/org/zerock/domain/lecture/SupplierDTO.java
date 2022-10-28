@@ -10,4 +10,9 @@ public class SupplierDTO {
 	private String name;
 	private List<String> productName;
 	private List<ProductDTO> product;
+	private String contactName;
+	private String city;
+	private String postalCode;
+	private String country;
+	private String phone;
 }

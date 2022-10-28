@@ -1,7 +1,7 @@
 package org.zerock.mapper.lecture;
 
 import org.zerock.domain.lecture.CustomerDTO;
-import org.zerock.domain.lecture.SupplierDTO2;
+import org.zerock.domain.lecture.SupplierDTO;
 
 public interface Mapper10 {
 	
@@ -19,6 +19,11 @@ public interface Mapper10 {
 	
 	int insertCustomer(CustomerDTO customer);
 
-	int insertSupplier(SupplierDTO2 supplier);
+	int insertSupplier(SupplierDTO supplier);
+
+	int insertCustomerAndGetKey(CustomerDTO customer);
+	
+	int insertSupplierAndGetKey(SupplierDTO supplier);
+
 
 }

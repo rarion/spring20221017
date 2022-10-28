@@ -2,9 +2,10 @@ package org.zerock.mapper.lecture;
 
 import java.util.List;
 
-import org.zerock.domain.lecture.CategoryDTO2;
+import org.zerock.domain.lecture.CategoryDTO;
 import org.zerock.domain.lecture.JavaBean04;
-import org.zerock.domain.lecture.ProductDTO2;
+import org.zerock.domain.lecture.ProductDTO;
+
 
 public interface Mapper09 {
 	String getCustomerNameById(int id);
@@ -19,7 +20,7 @@ public interface Mapper09 {
 
 	String getSupplierContactName(JavaBean04 bean2);
 	
-	List<String> getProductName(CategoryDTO2 b1, ProductDTO2 b2);
+	List<String> getProductName(CategoryDTO b1, ProductDTO b2);
 
 
 }

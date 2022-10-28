@@ -21,27 +21,37 @@
 	</delete>
 	
 	<delete id="removeEmployeeById">
-		DELETE FROM Employee
+		DELETE FROM Employees
 		WHERE EmployeeID = #{id}
 	</delete>
 	
 	<insert id="addCustomer">
-	INSERT INTO Customers (CustomerName, ContactName, Address, City, PostalCode, Country)
-	VALUES ('MINA','LIBEREUTA','SEOUL','SEOUL','333333','UK')
+		INSERT INTO Customers (CustomerName, ContactName, Address, City, PostalCode, Country)
+		VALUES ('MINA','LIBEREUTA','SEOUL','SEOUL','333333','UK')
 	</insert>
-
+	
 	<insert id="addSupplier">
-	INSERT INTO Suppliers (SupplierName, ContactName, City, PostalCode, Country, Phone)
-	VALUES ('JEONGMIN', 'AJIN','SEOUL','11111','KOREA')
+		INSERT INTO Suppliers (SupplierName, ContactName, City, PostalCode, Country, Phone)
+		VALUES ('JEONGMIN', 'AJIN','SEOUL','11111','KOREA')
 	</insert>
 	
 	<insert id="insertCustomer">
-	INSERT INTO Customers (CustomerName, ContactName, Address, City, PostalCode, Country)
-	VALUES (#{name},#{contactName},#{address},#{city},#{postalCode},#{country})
+		INSERT INTO Customers (CustomerName, ContactName, Address, City, PostalCode, Country)
+		VALUES (#{name},#{contactName},#{address},#{city},#{postalCode},#{country})
 	</insert>
 	
 	<insert id="insertSupplier">
-	INSERT INTO Suppliers (SupplierName, ContactName, City, PostalCode, Country, Phone)
-	VALUES (#{name},#{contactName},#{city},#{postalCode},#{country},#{phone})
+		INSERT INTO Suppliers (SupplierName, ContactName, City, PostalCode, Country, Phone)
+		VALUES (#{name},#{contactName},#{city},#{postalCode},#{country},#{phone})
+	</insert>
+	
+	<insert id="insertCustomerAndGetKey" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO Customers (CustomerName, ContactName, Address, City, PostalCode, Country)
+		VALUES (#{name}, #{contactName}, #{address}, #{city}, #{postalCode}, #{country})
+	</insert>
+	
+	<insert id="insertSupplierAndGetKey" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO Suppliers (SupplierName, ContactName, City, PostalCode, Country, Phone)
+		VALUES (#{name},#{contactName},#{city},#{postalCode},#{country},#{phone})
 	</insert>
 </mapper>
