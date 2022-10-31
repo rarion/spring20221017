@@ -29,4 +29,10 @@
 		SET SupplierID = #{id}, SupplierName = #{name}, ContactName = #{contactName}, City = #{city}, PostalCode = #{postalCode}, Country = #{country}, Phone = #{phone}
 		WHERE SupplierID = #{id}
 	</update>
+	
+	<update id="updateBank">
+		UPDATE Bank
+		SET balance = balance + (#{money)
+		WHERE account = #{account}
+	</update>
 </mapper>

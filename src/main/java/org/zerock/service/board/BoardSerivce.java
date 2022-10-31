@@ -1,0 +1,42 @@
+package org.zerock.service.board;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.zerock.domain.board.BoardDto;
+import org.zerock.mapper.board.BoardMapper;
+
+@Service
+public class BoardSerivce {
+
+	@Autowired
+	private BoardMapper mapper;
+	
+	public int register(BoardDto board) {
+		return mapper.insert(board);
+	}
+
+	public List<BoardDto> listBoard() {
+		// TODO Auto-generated method stub
+		return mapper.list();
+	}
+
+	public BoardDto get(int id) {
+		// TODO Auto-generated method stub
+		return mapper.select(id);
+	}
+
+	public int update(BoardDto board) {
+		// TODO Auto-generated method stub
+		return mapper.update(board);
+		
+	}
+
+	public int delete(BoardDto board) {
+		// TODO Auto-generated method stub
+		return mapper.delete(board);
+		
+	}
+	
+}
