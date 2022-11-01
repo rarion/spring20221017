@@ -8,9 +8,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.domain.board.BoardDto;
+import org.zerock.domain.board.PageInfo;
 import org.zerock.service.board.BoardSerivce;
+
 
 @Controller
 @RequestMapping("board")
@@ -40,9 +43,11 @@ public class BoardController {
 	}
 
 	@GetMapping("list")
-	public void list(Model model) {
-
-		List<BoardDto> list = service.listBoard();
+	public void list(@RequestParam(name="page", defaultValue = "1") int page, PageInfo pageInfo,Model model) {
+		
+		
+		
+		List<BoardDto> list = service.listBoard(page, pageInfo);
 
 		model.addAttribute("boardList", list);
 
@@ -90,6 +95,7 @@ public class BoardController {
 	
 	@PostMapping("remove")
 	public String remove(BoardDto board, RedirectAttributes rttr) {
+		
 		int cnt = service.delete(board);
 		
 		if(cnt==1) {	
