@@ -3,6 +3,7 @@
 <%@ attribute name="active" %>
 
 
+
 <nav class="navbar navbar-expand-lg bg-light">
   <div class="container-fluid">
     <c:url value="/board/list" var="listLink"></c:url>
@@ -23,9 +24,17 @@
       <c:url value="/board/list" var="listLink">
       	<c:param name="title" value="${board.title }"></c:param>
       </c:url>
-      <form class="d-flex" role="search" action="${listLink }" >
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
+      <form class="d-flex" role="search" action="${listLink }">
+      	<select name="t" id="" class="form-select" style="width: 100px ; font-size: 12px ">
+      		<option value="all">전체</option>
+      		<option value="title" ${param.t == 'title' ? 'selected' : ''}>제목</option>
+      		<option value="content" ${param.t == 'content' ? 'selected' : ''}>내용</option>
+      		<option value="writer" ${param.t == 'writer' ? 'selected' : ''}>작성자</option>
+      	</select>
+        <input value="${param.q }" class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="q" style="font-size: 14px;" >
+        <button class="btn btn-outline-success" type="submit">
+        	<i class="fa-solid fa-magnifying-glass"></i>
+        </button>
       </form>
     </div>
   </div>

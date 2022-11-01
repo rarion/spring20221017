@@ -4,10 +4,28 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="org.zerock.mapper.board.BoardMapper">
-
+	
 	<select id="countAll" resultType="int">
-		SELECT COUNT(*) FROM Board
+		SELECT COUNT(*)
+		FROM Board
+		WHERE 
+		
+			<trim prefixOverrides="OR">
+				<if test="type == 'all' or type == 'title'">
+				OR title LIKE #{keyword}
+				</if>
+				
+				<if test="type == 'all' or type == 'content'">
+				OR content LIKE #{keyword}
+				</if>
+				
+				<if test="type == 'all' or type == 'writer'">
+				OR writer LIKE #{keyword}
+				</if>
+			</trim>
 	</select>
+	
+
 
 	<insert id="insert">
 		INSERT INTO Board(title, content, writer)
@@ -17,6 +35,21 @@
 	<select id="list" resultType="org.zerock.domain.board.BoardDto">
 		SELECT id, title, writer, inserted
 		FROM Board
+		WHERE 
+		
+			<trim prefixOverrides="OR">
+				<if test="type == 'all' or type == 'title'">
+				OR title LIKE #{keyword}
+				</if>
+				
+				<if test="type == 'all' or type == 'content'">
+				OR content LIKE #{keyword}
+				</if>
+				
+				<if test="type == 'all' or type == 'writer'">
+				OR writer LIKE #{keyword}
+				</if>
+			</trim>
 		ORDER BY id DESC
 		LIMIT #{offset}, #{records}
 	</select>
@@ -24,7 +57,7 @@
 	<select id="select" resultType="org.zerock.domain.board.BoardDto">
 		SELECT id, title, content, writer, inserted
 		FROM Board
-		WHERE id = #{id}
+		WHERE id = #{id} 
 	</select>
 	
 	<update id="update">
@@ -40,6 +73,11 @@
 		WHERE id = #{id}
 	</delete>
 	
+	<update id="updateCount">
+		UPDATE Board 
+		SET count = count+1
+		WHERE id = #{id}
+	</update>
 	
 	
 </mapper>

@@ -43,11 +43,15 @@ public class BoardController {
 	}
 
 	@GetMapping("list")
-	public void list(@RequestParam(name="page", defaultValue = "1") int page, PageInfo pageInfo,Model model) {
+	public void list(@RequestParam(name="page", defaultValue = "1") int page,
+						@RequestParam(name="t", defaultValue = "all") String type,
+						@RequestParam(name="q", defaultValue = "") String keyword,						
+						PageInfo pageInfo,
+						Model model) {
 		
 		
 		
-		List<BoardDto> list = service.listBoard(page, pageInfo);
+		List<BoardDto> list = service.listBoard(page,type, keyword, pageInfo);
 
 		model.addAttribute("boardList", list);
 
@@ -105,6 +109,12 @@ public class BoardController {
 		}
 		
 		return "redirect:/board/list";
+	}
+	
+	@GetMapping("recommend")
+	public void pop(int id, Model model) {
+		List<BoardDto> recommendList = service.recommendList();
+		model.addAttribute("boardList", recommendList);
 	}
 	
 

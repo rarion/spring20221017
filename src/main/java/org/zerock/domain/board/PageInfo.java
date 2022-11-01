@@ -9,5 +9,6 @@ public class PageInfo {
 	private int leftPageNumber;
 	private int rightPageNumber;
 	private int currentPageNumber;
+	private boolean hasNextPageNumber;
 
 }

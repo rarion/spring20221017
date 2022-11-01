@@ -51,7 +51,7 @@
 		<div class="col">
 				<nav aria-label="Page navigation example">
 					<ul class="pagination justify-content-center">
-						<c:if test="${pageInfo.leftPage != 1 }">
+						<c:if test="${pageInfo.leftPage == 1 }">
 							<c:url value="/ex24/sub02" var="pageLink">
 				    			<c:param name="page" value="1"></c:param>
 				    		</c:url>

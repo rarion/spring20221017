@@ -21,15 +21,15 @@
 		</div>
 	</c:if>
 	
-	<h1>게시물 목록
+	<h2>게시물 목록
 		<c:url value="/board/register" var="registerLink">
 			<c:param name="id" value="${board.id}"></c:param>
 		</c:url>
 		<a class="brn" href="${registerLink }">
 			<i class="fa-solid fa-pencil"></i>
 		</a>	
-	</h1>
-	<table class="table">
+	</h2>
+	<table class="table" style="font-size: 14px">
 		<thead>
 			<tr>
 				<th>#</th>
@@ -58,22 +58,78 @@
 	</table>
 	
 	
-	<div class="row">
-		<div class="col">
-			<nav aria-label="Page navigation example">
-			  <ul class="pagination">
+	<div class="row" >
+		<div class="col" style="width: 17px">
+			<nav class="mt-3" aria-label="Page navigation example">
+			  <ul class="pagination justify-content-center">
+				<c:if test="${pageInfo.currentPageNumber != 1 }">
+					<li class="page-item">
+						<c:url value="/board/list" var="listLink">
+				    		<c:param name="page" value="1"></c:param>
+				    		<c:param name="q" value="${param.q }"></c:param>
+				    		<c:param name="t" value="${param.t }"></c:param>
+				    	</c:url>
+						<a class="page-link" href="${listLink}" aria-label="first">
+							<!-- &laquo -->
+							<span aria-hidden="true"><i class="fa-solid fa-angles-left"></i></span>
+						</a>
+					</li>
+				</c:if>
+				<c:if test="${pageInfo.leftPageNumber != 1 }">
+					<li class="page-item">
+						<c:url value="/board/list" var="listLink">
+				    		<c:param name="page" value="${pageInfo.currentPageNumber-1 }"></c:param>
+				    		<c:param name="q" value="${param.q }"></c:param>
+				    		<c:param name="t" value="${param.t }"></c:param>
+				    	</c:url>
+						<a class="page-link" href="${listLink}" aria-label="left">
+							<!-- &lt -->
+							<span aria-hidden="true"><i class="fa-solid fa-angle-left"></i></span>
+						</a>
+					</li>
+				
+				</c:if>
 			    <c:forEach begin="${pageInfo.leftPageNumber}" end="${pageInfo.rightPageNumber }" var="pageNumber">
 				    <c:url value="/board/list" var="listLink">
 				    	<c:param name="page" value="${pageNumber }"></c:param>
+				    	<c:param name="q" value="${param.q }"></c:param>
+				    	<c:param name="t" value="${param.t }"></c:param>
 				    </c:url>
 			    	<li class="page-item ${pageInfo.currentPageNumber eq pageNumber ? 'active' : '' }">
 			    		<a class="page-link" href="${listLink }">${pageNumber }</a>
 			    	</li>
 			    </c:forEach>
+			    <c:if test="${pageInfo.rightPageNumber != ((pageInfo.lastPageNumber-1)/10*10) }">
+			    	   <li class="page-item">
+						<c:url value="/board/list" var="listLink">
+				    		<c:param name="page" value="${pageInfo.currentPageNumber+1 }"></c:param>
+				    		<c:param name="q" value="${param.q }"></c:param>
+				    		<c:param name="t" value="${param.t }"></c:param>
+				    	</c:url>
+						<a class="page-link" href="${listLink}" aria-label="last">
+							<!-- &gt -->
+							<span aria-hidden="true"><i class="fa-solid fa-angle-right"></i></span>
+						</a>
+					</li>
+			    </c:if>
+			    <c:if test="${pageInfo.currentPageNumber != pageInfo.lastPageNumber }">
+					<li class="page-item">
+						<c:url value="/board/list" var="listLink">
+				    		<c:param name="page" value="${pageInfo.lastPageNumber }"></c:param>
+				    		<c:param name="q" value="${param.q }"></c:param>
+				    		<c:param name="t" value="${param.t }"></c:param>
+				    	</c:url>
+						<a class="page-link" href="${listLink}" aria-label="last">
+							 <!-- &raquo -->
+							 <span aria-hidden="true"><i class="fa-solid fa-angles-right"></i></span>
+						</a>
+					</li>
+				</c:if>
 			  </ul>
 			</nav>
 		</div>
 	</div>
+	
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 </body>
 </html>
