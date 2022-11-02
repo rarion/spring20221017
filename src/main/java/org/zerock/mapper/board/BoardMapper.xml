@@ -75,7 +75,7 @@
 	
 	<update id="updateCount">
 		UPDATE Board 
-		SET count = count+1
+		SET count = #{count+1}
 		WHERE id = #{id}
 	</update>
 	

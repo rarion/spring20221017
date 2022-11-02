@@ -5,7 +5,7 @@
 
 
 <nav class="navbar navbar-expand-lg bg-light">
-  <div class="container-fluid">
+  <div class="container-fluid" style="background-color: ;">
     <c:url value="/board/list" var="listLink"></c:url>
     <a class="navbar-brand" href="${listLink }">게시판</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
