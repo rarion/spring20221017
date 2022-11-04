@@ -2,7 +2,9 @@ package org.zerock.controller.lecture.p09fetch;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -14,6 +16,7 @@ import org.zerock.domain.lecture.JavaBean15;
 import org.zerock.domain.lecture.JavaBean16;
 import org.zerock.domain.lecture.JavaBean17;
 import org.zerock.domain.lecture.JavaBean18;
+
 
 @Controller
 @RequestMapping("ex45")
@@ -127,6 +130,50 @@ public class Controller45 {
 		data.setDateTime(LocalDateTime.now());
 		
 		return data;
+	}
+	
+	@GetMapping("sub13")
+	@ResponseBody
+	public Map<String, String> method12() {
+		Map<String, String> map = new HashMap<>();
+		map.put("address", "서울" );
+		map.put("email", "k@na.com" );
+		map.put("age", "30" );
+
+		return map;
+	}	
+	
+	@GetMapping("sub14")
+	@ResponseBody
+	public Map<String, Object> method14() {
+		Map<String, Object> map = new HashMap<>();
+		JavaBean16 data = new JavaBean16();
+		JavaBean17 sub = new JavaBean17();
+		
+		sub.setAddress(List.of("제주", "울릉도"));
+		sub.setMarried(false);
+		
+		data.setAge(99);
+		data.setInfo(sub);
+		
+		map.put("address", "부산");
+		map.put("age", 33);
+		map.put("married", true);
+		map.put("data", data);
+		
+		return map;
+	}
+	
+	@GetMapping("sub15")
+	@ResponseBody
+	public Map<String, Object> method15() {
+		Map<String, Object> map = new HashMap<>();
+		map.put("car", "tesla");
+		map.put("model", "avante");
+		map.put("color", List.of("blue", "red"));
+		
+		
+		return map;
 	}
 
 }
