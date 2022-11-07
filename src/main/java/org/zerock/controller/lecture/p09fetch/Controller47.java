@@ -1,12 +1,17 @@
 package org.zerock.controller.lecture.p09fetch;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.zerock.domain.lecture.CustomerDTO;
@@ -60,4 +65,128 @@ public class Controller47 {
 	public SupplierDTO method7(@PathVariable int id) {
 		return mapper.getSupplierById(id);
 	}
+	
+	
+	@GetMapping("sub08/{id}")
+	@ResponseBody
+	public Map<String, Object> method8(@PathVariable int id) {
+		Map<String, Object> map = new HashMap<>();
+		
+		CustomerDTO customer = mapper.getCustomerById(id);
+		
+		if (customer != null) {
+			map.put("customer", customer);
+			map.put("message", "조회 완료되었습니다.");
+		} else {
+			map.put("message", "조회되지 않았습니다.");
+		}
+		
+		return map;
+	}
+	
+	@GetMapping("sub09/{id}")
+	@ResponseBody
+	public Map<String, Object> method9(@PathVariable int id) {
+		Map<String, Object> map = new HashMap<>();
+		SupplierDTO supplier = mapper.getSupplierById(id);
+		
+		if (supplier != null) {
+			map.put("message", "공급자가 조회되었습니다.");
+			map.put("supplier", supplier);
+			
+		} else {
+			map.put("message", "공급자가 조회되지 않았습니다.");
+		}
+		
+		return map;
+	}
+	
+	@PutMapping("sub10")
+	@ResponseBody
+	public Map<String, String> method10(@RequestBody CustomerDTO customer) {
+		Map<String, String> map = new HashMap<>();
+		int cnt = mapper.updateCustomer(customer);
+		if (cnt == 1) {
+			map.put("message", customer.getId() + "번 고객정보가 변경되었습니다.");
+		} else {
+			map.put("message", customer.getId() + "번 고객정보가 변경되지 않았습니다.");
+		}
+		
+		return map;
+	}
+	
+	@PutMapping("sub11")
+	@ResponseBody
+	public Map<String, String> method10(@RequestBody SupplierDTO supplier) {
+		Map<String, String> map = new HashMap<>();
+		int cnt = mapper.updateSupplier(supplier);
+		if (cnt == 1) {
+			map.put("message", supplier.getId() + "번 공급자정보가 변경되었습니다.");
+		} else {
+			map.put("message", supplier.getId() + "번 공급자정보가 변경되지 않았습니다.");
+		}
+		
+		return map;
+	}
+	
+	@PostMapping("sub12")
+	@ResponseBody
+	public Map<String, String> method12(@RequestBody CustomerDTO customer) {
+		Map<String, String> map = new HashMap<>();
+		int cnt = mapper.insertCustomer(customer);
+		if (cnt == 1) {
+			map.put("message", customer.getId() + "번 고객정보가 입력되었습니다.");
+		} else {
+			map.put("message", "고객정보가 입력되지 않았습니다.");
+		}
+		
+		return map;
+	}
+	
+	@PostMapping("sub13")
+	@ResponseBody
+	public Map<String, String> method13(@RequestBody SupplierDTO supplier) {
+		Map<String, String> map = new HashMap<>();
+		int cnt = mapper.insertSupplier(supplier);
+		if (cnt == 1) {
+			map.put("message", supplier.getId() + "번 공급자정보가 입력되었습니다.");
+		} else {
+			map.put("message", "공급자정보가 입력되지 않았습니다.");
+		}
+		
+		return map;
+	}
+	
+	@DeleteMapping("sub14/{id}")
+	@ResponseBody
+	public Map<String, Object> method14(@PathVariable int id) {
+		Map<String, Object> map = new HashMap<>();
+		
+		int cnt = mapper.deleteCustomer(id);
+		
+		if (cnt == 1) {
+			map.put("message", id + "번 고객이 삭제되었습니다.");
+		} else {
+			map.put("message", id + "번 고객이 삭제되지 않았습니다.");
+		}
+		
+		return map;
+	}
+	
+	@DeleteMapping("sub15/{id}")
+	@ResponseBody
+	public Map<String, Object> method15(@PathVariable int id) {
+		Map<String, Object> map = new HashMap<>();
+		
+		int cnt = mapper.deleteSupplier(id);
+		
+		if (cnt == 1) {
+			map.put("message", id + "번 공급자정보가 삭제되었습니다.");
+		} else {
+			map.put("message", id + "번 공급자정보가 삭제되지 않았습니다.");
+		}
+		
+		return map;
+	}
+
 }
