@@ -15,12 +15,14 @@ public interface BoardMapper {
 	int update(BoardDto board);
 
 	
-	int delete(BoardDto board);
+	int delete(int id);
 
 	int countAll(String keyword, String type);
 	/*
 	 * int seachCountAll();
 	 */
+
+	int insertFile(int id, String fileName);
 	
 
 }

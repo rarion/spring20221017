@@ -50,7 +50,7 @@ public class ReplyController {
 	@ResponseBody
 	public Map<String, Object> remove(@PathVariable int id) {
 		Map<String, Object> map = new HashMap<>();
-		
+
 		int cnt = service.removeById(id);
 		if (cnt == 1) {
 			map.put("message", "댓글이 삭제되었습니다.");
