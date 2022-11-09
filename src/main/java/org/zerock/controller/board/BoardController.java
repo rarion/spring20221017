@@ -89,8 +89,21 @@ public class BoardController {
 	}
 	
 	@PostMapping("modify")
-	public String modify(BoardDto board, RedirectAttributes rttr) {
-		int cnt = service.update(board);
+	public String modify(BoardDto board,
+						 // @RequestParam("files") 기본타입 or String일시 생략
+						 MultipartFile[] files,
+						 @RequestParam(name = "removeFiles", required = false) List<String> removeFiles,
+						 RedirectAttributes rttr) {
+		
+		// 지울 파일명 들어오는 지 확인
+		System.out.println("지울 파일명####");
+		if (removeFiles != null) {
+			for (String name : removeFiles) {
+				System.out.println(name);
+			}
+		}
+		
+		int cnt = service.update(board, files, removeFiles);
 		
 		if(cnt==1) {	
 			rttr.addFlashAttribute("message",  board.getId()+"번 게시물이 수정되었습니다");

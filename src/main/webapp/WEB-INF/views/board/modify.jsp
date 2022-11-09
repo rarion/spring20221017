@@ -22,7 +22,7 @@
 		<div class="row">
 			<div class="col">
 				<h1>${board.id}번게시물 수정</h1>
-				<form id="modifyForm" action="" method="post">
+				<form id="modifyForm" action="" method="post" enctype="multipart/form-data">
 					<input type="hidden" name="id" value="${board.id }">
 					<div class="mb-3">
 						<label class="form-label"> 제목 </label> 
@@ -32,6 +32,28 @@
 						<label class="form-label"> 본문 </label>
 						<textarea rows="5" class="form-control" name="content" readonly>${board.content }</textarea>
 					</div>
+					
+					<!-- 이미지 출력 -->
+						
+					<div class="mb-3">
+						<c:forEach items="${board.fileName }" var="name">
+	
+							<div class="row">
+								<div class="col-2">
+									<%-- 삭제 여부 체크박스 --%>
+									삭제
+									<input type="checkbox" name="removeFiles" value="${name }">
+								</div>
+								<div class="col-10">
+									<div>
+										<img class="img-fluid img-thumbnail" src="/image/${board.id }/${name}" alt="">
+									</div>
+								</div>
+							</div>
+						</c:forEach>		
+					</div>
+
+					
 					<div class="mb-3">
 						<label class="form-label"> 작성자 </label> 
 						<input class="form-control" type="text" name="writer" value="${board.writer}">

@@ -14,6 +14,7 @@ import org.zerock.mapper.board.BoardMapper;
 import org.zerock.mapper.board.ReplyMapper;
 
 @Service
+@Transactional // all rollback
 public class BoardSerivce {
 
 	@Autowired
@@ -22,7 +23,6 @@ public class BoardSerivce {
 	@Autowired
 	private ReplyMapper replyMapper;
 	
-	@Transactional
 	public int register(BoardDto board, MultipartFile[] files) {
 		// db에 게시물 정보 저장
 		int cnt = boardMapper.insert(board);
@@ -85,8 +85,46 @@ public class BoardSerivce {
 		return boardMapper.select(id);
 	}
 
-	public int update(BoardDto board) {
-		// TODO Auto-generated method stub
+	
+	public int update(BoardDto board, MultipartFile[] addFiles, List<String> removeFiles) {
+		// removeFiles에 있는 파일명으로
+		if (removeFiles != null)
+		for (String fileName : removeFiles) {
+			
+			
+			// 1. File 테이블에서 record 지우기
+			boardMapper.deleteFileByBoardIdAndFileName(board.getId(), fileName);
+									
+			// 2. 저장소에 실제 파일 지우기
+			File file = new File("C:\\Users\\user\\Desktop\\study\\upload\\prj1\\board\\" + board.getId()); 
+			file.delete();
+		};
+		
+		for (MultipartFile file : addFiles) {
+			
+			
+			// File table에 해당 파일명 지우기
+			boardMapper.deleteFileByBoardIdAndFileName(board.getId(), file.getOriginalFilename());
+			
+			
+			if (file != null && file.getSize() > 0) {
+				
+				// File table에 파일명 추가
+				boardMapper.insertFile(board.getId(), file.getOriginalFilename());			
+				
+				// 저장소에 실제 파일 추가
+				File folder = new File("C:\\Users\\user\\Desktop\\study\\upload\\prj1\\board\\" + board.getId()); 
+				File dest = new File(folder, file.getOriginalFilename());
+				try {
+					file.transferTo(dest);
+				} catch (IOException e) {
+					e.printStackTrace();
+					throw new RuntimeException(e);
+				}
+			}
+		}
+		
+		
 		return boardMapper.update(board);
 		
 	}
@@ -96,9 +134,25 @@ public class BoardSerivce {
 	 * 
 	 * }
 	 */
-	
-	@Transactional // (all rollback)
 	public int remove(int id) {
+		// 저장소의 파일 지우기
+		String path = "C:\\Users\\user\\Desktop\\study\\upload\\prj1\\board\\" + id;
+		File folder = new File(path);
+		
+		File[] listFiles = folder.listFiles();
+		
+		if(listFiles!=null) {
+			
+		for(File file : listFiles) {
+				file.delete();
+			}
+			
+			folder.delete();
+		}
+		
+		// db 파일 records 지우기
+		boardMapper.deleteFileByBoardId(id);
+		
 		// 게시물의 댓글들 지우기
 		replyMapper.deleteByBoardId(id);
 		

@@ -59,6 +59,12 @@
 											${board.countReply }
 										</span>
 									</c:if>
+									<c:if test="${board.countFile > 0 }">
+										<span class="badge rounded-pill text-bg-light">
+											<i class="fa-regular fa-file-image"></i>
+											${board.countFile }
+										</span>
+									</c:if>
 								</td>
 								<td>${board.writer }</td>
 								<td>${board.ago }</td>
