@@ -143,12 +143,13 @@ public class BoardSerivce {
 		
 		if(listFiles!=null) {
 			
-		for(File file : listFiles) {
+			for(File file : listFiles) {
 				file.delete();
 			}
 			
-			folder.delete();
 		}
+		
+		folder.delete();
 		
 		// db 파일 records 지우기
 		boardMapper.deleteFileByBoardId(id);

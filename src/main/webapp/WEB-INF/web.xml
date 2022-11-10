@@ -15,38 +15,27 @@
       <param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
     </init-param>
     <load-on-startup>1</load-on-startup>
-    	<multipart-config>
-			<max-file-size>20971520</max-file-size>
-		</multipart-config>
+    <multipart-config>
+      <max-file-size>20971520</max-file-size>
+    </multipart-config>
   </servlet>
   <servlet-mapping>
     <servlet-name>appServlet</servlet-name>
     <url-pattern>/</url-pattern>
   </servlet-mapping>
-  
- <!--  <servlet>
-    <description></description>
-    <display-name>Controller</display-name>
-    <servlet-name>Controller</servlet-name>
-    <servlet-class>org.zerock.controller.lecture.p06jdbc.Controller</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>Controller</servlet-name>
-    <url-pattern>/Controller</url-pattern>
-  </servlet-mapping> -->
-  
   <filter>
-  	<filter-name>encodingFilter</filter-name>
-  	<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
-  	<init-param>
-  		<param-name>encoding</param-name>
-  		<param-value>UTF-8</param-value>
-  	</init-param>
+    <filter-name>encodingFilter</filter-name>
+    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+    <init-param>
+      <param-name>encoding</param-name>
+      <param-value>UTF-8</param-value>
+    </init-param>
   </filter>
-  
   <filter-mapping>
-  	<filter-name>encodingFilter</filter-name>
-  	<url-pattern>/*</url-pattern>
+    <filter-name>encodingFilter</filter-name>
+    <url-pattern>/*</url-pattern>
   </filter-mapping>
-   	
+  <listener>
+    <listener-class>org.zerock.listener.CustomApplicationListener</listener-class>
+  </listener>
 </web-app>
