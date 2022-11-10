@@ -22,6 +22,11 @@ public class BoardController {
 
 	@Autowired
 	private BoardSerivce service;
+	
+	@GetMapping("home")
+	public void home() {
+
+	}
 
 	@GetMapping("register")
 	public void register() {

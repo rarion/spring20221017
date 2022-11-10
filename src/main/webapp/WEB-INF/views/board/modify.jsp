@@ -13,7 +13,11 @@
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
 	rel="stylesheet"
 	integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
-	crossorigin="anonymous">
+	crossorigin="anonymous" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+	integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+	crossorigin="anonymous" referrerpolicy="no-referrer" />
 <style>
 .custom-check.form-check-input:checked {
     background-color: #dc3545;
@@ -29,7 +33,7 @@
 		<div class="row">
 			<div class="col">
 			
-				<h1>${board.id}번게시물 수정</h1>
+				<h1>${board.id}번게시물 수정 </h1>
 				
 				<form id="modifyForm" action="" method="post" enctype="multipart/form-data">
 					<input type="hidden" name="id" value="${board.id }">
@@ -86,10 +90,10 @@
 				<input class="btn btn-warning" type="submit" value="수정" data-bs-toggle="modal" data-bs-target="#modifyModal">
 				
 				<c:url value="/board/remove" var="removeLink"></c:url>
-				<form id="deleteForm" action="${removeLink }" method="post">
+				<form id="removeForm" action="${removeLink }" method="post">
 					<input type="hidden" name="id" value="${board.id }">
 				</form>
-				<input class="btn btn-danger" type="submit" value="삭제" data-bs-toggle="modal" data-bs-target="#deleteModal">
+				<input class="btn btn-danger" type="submit" value="삭제" data-bs-toggle="modal" data-bs-target="#removeModal">
 					
 			</div>
 		</div>
@@ -122,7 +126,7 @@
 	</div>
 
 
-	<div class="modal fade" id="deleteModal" tabindex="-1"
+	<div class="modal fade" id="removeModal" tabindex="-1"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -133,7 +137,7 @@
 				</div>
 				<div class="modal-body">삭제하시겠습니까?</div>
 				<div class="modal-footer">
-					<button id="deleteConfirmButton" type="button"
+					<button id="removeConfirmButton" type="button"
 						class="btn btn-secondary" data-bs-dismiss="modal">확인</button>
 					<button type="button" class="btn btn-primary"
 						data-bs-dismiss="modal">취소</button>
