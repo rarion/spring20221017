@@ -4,12 +4,16 @@
 
 
 
-<nav class="navbar navbar-expand-lg bg-light">
-  <div class="container-fluid" style="background-color: ;">
+<nav class="navbar navbar-expand-lg bg-light  mb-3">
+   <div class="container-md">
     <c:url value="/board/list" var="listLink"></c:url>
     
     <c:url value="/board/home" var="homeLink"></c:url> <!-- trash -->
     
+	<c:url value="/member/signup" var="signupLink"></c:url>
+	
+	<c:url value="/member/list" var="memberListLink"></c:url>
+   
     <a class="navbar-brand" href="${homeLink }">게시판</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -19,10 +23,20 @@
         <li class="nav-item">
           <a class="nav-link ${active eq 'list' ? 'active' :''} " href="${listLink }">목록</a>
         </li>
+        
         <li class="nav-item">
           <c:url value="/board/register" var="registerLink"></c:url>
           <a class="nav-link ${active eq 'register' ? 'active' :''}" href="${registerLink}">작성</a>
         </li>
+        
+        <li class="nav-item">
+          <a class="nav-link ${active eq 'signup' ? 'active' :''}" href="${signupLink}">회원가입</a>
+        </li>
+       
+        <li class="nav-item">
+          <a class="nav-link ${active eq 'memberList' ? 'active' :''}" href="${memberListLink}">회원목록</a>
+        </li>
+        
       </ul>
       <c:url value="/board/list" var="listLink">
       	<c:param name="title" value="${board.title }"></c:param>
