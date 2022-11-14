@@ -26,11 +26,11 @@
 						</label>
 						
 						<div class="input-group">
-							<input class="form-control" type="text" name="id">
-							<button class="btn btn-outline-secondary" type="button">중복확인</button>
+							<input id="userIdInput" class="form-control" type="text" name="id">
+							<button id="userIdExistButton" class="btn btn-outline-secondary" type="button">중복확인</button>
 						</div>
 						
-						<div class="form-text">어떤 메시지....</div>
+						<div id="userIdText" class="form-text">아이디 중복확인을 해주세요</div>
 						
 					</div>
 
@@ -38,15 +38,15 @@
 						<label for="" class="form-label">
 							암호
 						</label>
-						<input class="form-control" type="password" name="password">
-						<div class="form-text">암호 확인 결과...</div>
+						<input id="passwordInput1" class="form-control" type="password" name="password">
+						<div id="passwordText" class="form-text"></div>
 					</div>
 					
 					<div class="mb-3">
 						<label for="" class="form-label">
 							암호 확인
 						</label>
-						<input class="form-control" type="password">
+						<input id="passwordInput2" class="form-control" type="password">
 					</div>
 
 					<div class="mb-3">
@@ -55,14 +55,14 @@
 						</label>
 						
 						<div class="input-group">
-							<input class="form-control" type="email" name="email">
-							<button type="button" class="btn btn-outline-secondary">중복확인</button>
+							<input id="userEmailInput" class="form-control" type="email" name="email">
+							<button id="userEmailExistButton" type="button" class="btn btn-outline-secondary">중복확인</button>
 						</div>
 						
-						<div class="form-text">확인 메시지....</div>
+						<div id="userEmailText" class="form-text">이메일 중복확인을 해주세요.</div>
 					</div>
 
-					<input class="btn btn-primary" type="submit" value="가입">
+					<input disabled class="btn btn-primary" type="submit" value="가입">
 				
 				</form>
 			
@@ -73,5 +73,68 @@
 	
 	
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+<script>
+const ctx = "${pageContext.request.contextPath}";
+
+document.querySelector("#userEmailExistButton").addEventListener("click", function(){ 
+	const email = document.querySelector("#userEmailInput").value;
+	
+	// fetch 요청 보내고
+	fetch(ctx + "/member/existEmail", {
+		method : "post",
+		headers : {
+			"Content-Type" : "application/json"
+		},
+		body : JSON.stringify({email})
+	})
+		.then(res => res.json())
+		.then(data => {
+			// 응답 받아서 메세지 출력
+			document.querySelector("#userEmailText").innerText = data.message;
+		});
+});
+
+
+/* 아이디 중복확인 */
+document.querySelector("#userIdExistButton").addEventListener("click", function(){
+	// 입력된 userId를 
+	const userId = document.querySelector("#userIdInput").value;
+	
+	// fetch 요청 보내고
+	fetch(ctx + "/member/existId/" + userId)
+		.then(res => res.json())
+		.then(data => {
+			// 응답 받아서 메세지 출력
+			document.querySelector("#userIdText").innerText = data.message;
+		});
+	
+
+});
+
+
+
+
+/* 패스워드 일치확인 */
+const passwordInput1 = document.querySelector("#passwordInput1");
+const passwordInput2 = document.querySelector("#passwordInput2");
+const passwordText = document.querySelector("#passwordText");
+
+function matchPassword() {
+	const value1 = passwordInput1.value;
+	const value2 = passwordInput2.value;
+	
+	if (value1 == value2) {
+		passwordText.innerText = "패스워드가 일치합니다.";
+	} else {
+		passwordText.innerText = "패스워드가 일치하지 않습니다.";
+	}
+}
+
+
+document.querySelector("#passwordInput1").addEventListener("keyup", matchPassword);
+
+document.querySelector("#passwordInput2").addEventListener("keyup", matchPassword);
+
+</script>
 </body>
 </html>

@@ -12,8 +12,11 @@ public interface MemberMapper {
 
 	MemberDTO select(String id);
 
+	MemberDTO selectEmail(String email);
+
 	int update(MemberDTO member);
 
 	int delete(String id);
+
 
 }

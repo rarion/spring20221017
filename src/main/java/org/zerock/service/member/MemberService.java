@@ -27,6 +27,11 @@ public class MemberService {
 		
 		return mapper.select(id);
 	}
+	
+	public MemberDTO getEmail(String email) {
+		
+		return mapper.selectEmail(email);
+	}
 
 	public int update(MemberDTO member) {
 		
@@ -45,5 +50,7 @@ public class MemberService {
 		
 		return mapper.delete(id);
 	}
+
+
 	
 }

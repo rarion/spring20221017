@@ -19,7 +19,7 @@
 			<div class="col">
 			
 				<c:if test="${not empty message }">
-					<div class="alert alert-success">
+					<div id="message" class="alert alert-success">
 						${message }
 					</div>
 				</c:if>
@@ -34,21 +34,31 @@
 						</label>
 						<input class="form-control-plaintext" type="text" value="${member.id }" readonly>
 					</div>
+					
 					<div class="mb-3">
 						<label for="" class="form-label">
-							암호 
+							암호
 						</label>
-						<input class="form-control" type="password" value="${member.password }" name="password">
+						<input id="passwordInput1" class="form-control" type="password" name="password" value="${member.password}">
+						<div id="passwordText" class="form-text"></div>
 					</div>
+					
+					<div class="mb-3">
+						<label for="" class="form-label">
+							암호 확인
+						</label>
+						<input id="passwordInput2" class="form-control" type="password">
+					</div>
+					
 					<div class="mb-3">
 						<label for="" class="form-label">
 							이메일 
 						</label>
 						<div class="input-group">
-							<input class="form-control" type="email" value="${member.email }" name="email">
-							<button type="button" class="btn btn-outline-secondary">중복확인</button>
+							<input id="emailInput" class="form-control" type="email" value="${member.email }" name="email" data-old-value="${member.email }">
+							<button disabled id="emailExistButton" type="button" class="btn btn-outline-secondary">중복확인</button>
 						</div>
-						<div class="form-text">확인 메시지....</div>
+						<div id="emailText" class="form-text"></div>
 					</div>
 					<div class="mb-3">
 						<label for="" class="form-label">
@@ -88,10 +98,67 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 <script>
 
+	const ctx = "${pageContext.request.contextPath}";
 	
+	emailInput.addEventListener("keyup", function(){
+		const oldValue = emailInput.dataset.oldValue;
+		const newValue = emailInput.value;
+		
+		if(oldValue == newValue){
+			emilText.innerText = "";
+			document/querySelector("#emailExistButton").setAttribute("disabled", "disabled");
+		}else {
+			// 원래 값과 다르면 중복 확인요청/응답
+			emailText.innerText = "이메일 중복확인을 해주세요.";
+			emailExistButton.removeAttribute("disabled");
+		}
+	});
+	
+	
+	document.querySelector("#emailExistButton").addEventListener("click", function(){ 
+		const email = document.querySelector("#emailInput").value;
+		
+		// fetch 요청 보내고
+		fetch(ctx + "/member/existEmail", {
+			method : "post",
+			headers : {
+				"Content-Type" : "application/json"
+			},
+			body : JSON.stringify({email})
+		})
+			.then(res => res.json())
+			.then(data => {
+				// 응답 받아서 메세지 출력
+				document.querySelector("#emailText").innerText = data.message;
+			});
+	});
+	
+	
+	const passwordInput1 = document.querySelector("#passwordInput1");
+	const passwordInput2 = document.querySelector("#passwordInput2");
+	const passwordText = document.querySelector("#passwordText");
+	
+	/* 패스워드 일치확인 */
+	function matchPassword() {
+		const value1 = passwordInput1.value;
+		const value2 = passwordInput2.value;
+		
+		if (value1 == value2) {
+			passwordText.innerText = "패스워드가 일치합니다.";
+		} else {
+			passwordText.innerText = "패스워드가 일치하지 않습니다.";
+		}
+	}
+	
+	
+	document.querySelector("#passwordInput1").addEventListener("keyup", matchPassword);
+	
+	document.querySelector("#passwordInput2").addEventListener("keyup", matchPassword);
+		
 	//수정확인 버튼 클릭하면 수정 form 전송
 	document.querySelector("#modifyConfirmButton").addEventListener("click", function() {
-		document.querySelector("#modifyForm").submit();
+			document.querySelector("#modifyForm").submit();
+	
 	});
 </script>
 </body>
