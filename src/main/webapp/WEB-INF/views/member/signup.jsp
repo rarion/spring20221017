@@ -62,7 +62,7 @@
 						<div id="userEmailText" class="form-text">이메일 중복확인을 해주세요.</div>
 					</div>
 
-					<input disabled class="btn btn-primary" type="submit" value="가입">
+					<input disabled id="submitButton" class="btn btn-primary" type="submit" value="가입">
 				
 				</form>
 			
@@ -75,8 +75,32 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 <script>
 const ctx = "${pageContext.request.contextPath}";
+// 아이디 사용 가능
+let availableId = false;
+// 이메일 사용 가능
+let availableEmail = false;
+// 패스워드 사용 가능
+let availablePassword = false;
 
+function enableSubmitButton(){
+	const button = document.querySelector("#submitButton");
+	if(availableId && availableEmail && availablePassword){
+		button.removeAttribute("disabled");
+	} else {
+		button.setAttribute("disabled", "");
+	}
+};
+
+// 이메일 input 변경시 submit 버튼 비활성화
+document.querySelector("#userEmailInput").addEventListener("keyup", function(){
+	availableEmail = false;
+	enableSubmitButton();
+});
+
+// 이메일 중복확인
 document.querySelector("#userEmailExistButton").addEventListener("click", function(){ 
+	availableEmail = false;
+	
 	const email = document.querySelector("#userEmailInput").value;
 	
 	// fetch 요청 보내고
@@ -91,12 +115,25 @@ document.querySelector("#userEmailExistButton").addEventListener("click", functi
 		.then(data => {
 			// 응답 받아서 메세지 출력
 			document.querySelector("#userEmailText").innerText = data.message;
+			
+			if(data.status == "not exist"){
+				availableEmail = true;
+				enableSubmitButton();
+			}
 		});
 });
 
 
+// 아이디 input 변경시 submit 버튼 비활성화
+document.querySelector("#userIdInput").addEventListener("keyup", function(){
+	availableEmail = false;
+	enableSubmitButton();
+});
+
 /* 아이디 중복확인 */
 document.querySelector("#userIdExistButton").addEventListener("click", function(){
+	availableId = false;
+	
 	// 입력된 userId를 
 	const userId = document.querySelector("#userIdInput").value;
 	
@@ -106,6 +143,11 @@ document.querySelector("#userIdExistButton").addEventListener("click", function(
 		.then(data => {
 			// 응답 받아서 메세지 출력
 			document.querySelector("#userIdText").innerText = data.message;
+			
+			if(data.status == "not exist"){
+				availableId = true;
+				enableSubmitButton();
+			}
 		});
 	
 
@@ -120,14 +162,19 @@ const passwordInput2 = document.querySelector("#passwordInput2");
 const passwordText = document.querySelector("#passwordText");
 
 function matchPassword() {
+	availablePassword = false;
+	
 	const value1 = passwordInput1.value;
 	const value2 = passwordInput2.value;
 	
 	if (value1 == value2) {
 		passwordText.innerText = "패스워드가 일치합니다.";
+		availablePassword = true;
 	} else {
 		passwordText.innerText = "패스워드가 일치하지 않습니다.";
 	}
+	
+	enableSubmitButton();
 }
 
 

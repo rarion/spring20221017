@@ -39,8 +39,8 @@
 						<label for="" class="form-label">
 							암호
 						</label>
-						<input id="passwordInput1" class="form-control" type="password" name="password" value="${member.password}">
-						<div id="passwordText" class="form-text"></div>
+						<input id="passwordInput1" class="form-control" type="password" name="password" value="${member.password}" data-old-password = "${member.password }">
+						<div id="passwordText" class="form-text">암호를 다시 한번 확인해 주세요</div>
 					</div>
 					
 					<div class="mb-3">
@@ -69,7 +69,15 @@
 				
 					<input type="hidden" name="oldPassword">
 				</form>
-				<input class="btn btn-warning" type="submit" value="수정" data-bs-toggle="modal" data-bs-target="#modifyModal">
+				<input disabled id="submitButton" class="btn btn-warning" type="submit" value="수정" data-bs-toggle="modal" data-bs-target="#modifyModal">
+				
+				<input id="cancelButton" class="btn btn-light" type="submit" value="취소">
+				
+				<c:url value="/member/cancel" var="cancelLink"></c:url>
+				<form id="cancelForm" action="${cancelLink }" method="post">
+					<input type="hidden" name="id" value="${member.id }">
+				</form>
+		
 			</div>
 		</div>
 	</div>
@@ -95,27 +103,46 @@
 			</div>
 		</div>
 	</div>
+	
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 <script>
-
+	let availableEmail = true;
+	let availablePassword = true;
+	
+	function enableSubmitButton(){
+		const button = document.querySelector("#submitButton");
+		if(availableEmail && availablePassword){
+			button.removeAttribute("disabled");
+		}else {
+			button.setAttribute("disabled", "");
+		}
+	}
+	
 	const ctx = "${pageContext.request.contextPath}";
 	
-	emailInput.addEventListener("keyup", function(){
+	document.querySelector("#emailInput").addEventListener("keyup", function(){
+		availableEmail = false;
 		const oldValue = emailInput.dataset.oldValue;
 		const newValue = emailInput.value;
 		
 		if(oldValue == newValue){
 			emilText.innerText = "";
-			document/querySelector("#emailExistButton").setAttribute("disabled", "disabled");
+			document.querySelector("#emailExistButton").setAttribute("disabled", "disabled");
+			availableEmail = true;
+			enableSubmitButton();
+			
 		}else {
 			// 원래 값과 다르면 중복 확인요청/응답
 			emailText.innerText = "이메일 중복확인을 해주세요.";
 			emailExistButton.removeAttribute("disabled");
 		}
+		enableSubmitButton();
 	});
 	
 	
 	document.querySelector("#emailExistButton").addEventListener("click", function(){ 
+		availableEmail = false;
 		const email = document.querySelector("#emailInput").value;
 		
 		// fetch 요청 보내고
@@ -130,9 +157,16 @@
 			.then(data => {
 				// 응답 받아서 메세지 출력
 				document.querySelector("#emailText").innerText = data.message;
+				
+				if (data.status == "not exist") {
+					availableEmail = true;
+					enableSubmitButton();
+				}
 			});
 	});
 	
+	
+
 	
 	const passwordInput1 = document.querySelector("#passwordInput1");
 	const passwordInput2 = document.querySelector("#passwordInput2");
@@ -140,14 +174,20 @@
 	
 	/* 패스워드 일치확인 */
 	function matchPassword() {
+		
 		const value1 = passwordInput1.value;
 		const value2 = passwordInput2.value;
 		
 		if (value1 == value2) {
 			passwordText.innerText = "패스워드가 일치합니다.";
+			availablePassword = true;
 		} else {
 			passwordText.innerText = "패스워드가 일치하지 않습니다.";
+			availablePassword = false;
 		}
+		
+		enableSubmitButton();
+		
 	}
 	
 	
@@ -157,8 +197,13 @@
 		
 	//수정확인 버튼 클릭하면 수정 form 전송
 	document.querySelector("#modifyConfirmButton").addEventListener("click", function() {
-			document.querySelector("#modifyForm").submit();
+
+		document.querySelector("#modifyForm").submit();
 	
+	});
+	
+	document.querySelector("#cancelButton").addEventListener("click", function() {
+		document.querySelector("#cancelForm").submit();
 	});
 </script>
 </body>

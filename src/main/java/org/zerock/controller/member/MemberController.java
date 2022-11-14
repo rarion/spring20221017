@@ -23,6 +23,13 @@ public class MemberController {
 	@Autowired
 	private MemberService service;
 	
+	@PostMapping("cancel")
+	public String cancel(MemberDTO member, RedirectAttributes rttr ) {
+		
+		rttr.addAttribute("id", member.getId());
+		return "redirect:/member/information";
+	}
+	
 	@PostMapping("existEmail")
 	@ResponseBody
 	public Map<String, Object> existEmail(@RequestBody Map<String, String> req){
@@ -74,7 +81,7 @@ public class MemberController {
 		int cnt = service.insert(member);
 		
 		rttr.addFlashAttribute("message", "회원가입 되었습니다");
-		return "redirect:/board/list";
+		return "redirect:/member/list";
 		
 		/*
 			 * else { rttr.addFlashAttribute("message", "회원가입 실패하였습니다");
